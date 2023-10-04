@@ -6,6 +6,7 @@ import com.vanz.eta.repository.ConfirmationRepository;
 import com.vanz.eta.repository.NotificationRepository;
 import com.vanz.eta.repository.OrderRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,17 +15,12 @@ import java.util.Date;
 @Service
 public class ExecutionServiceImpl implements ExecutionService {
 
+    @Autowired
     private NotificationRepository notificationRepository;
+    @Autowired
     private OrderRepository orderRepository;
+    @Autowired
     private ConfirmationRepository confirmationRepository;
-
-    public ExecutionServiceImpl(NotificationRepository notificationRepository, OrderRepository orderRepository, ConfirmationRepository confirmationRepository) {
-
-        this.notificationRepository = notificationRepository;
-        this.orderRepository = orderRepository;
-        this.confirmationRepository = confirmationRepository;
-
-    }
 
     @Override
     @Transactional
