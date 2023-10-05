@@ -52,30 +52,39 @@ public class NotificationServiceImpl implements NotificationService{
     @Transactional
     public String processNotification(ManagedNotificationData managedNotificationData) {
 
-        Order order = new Order();
+        Notification notification = notificationRepository.findById(managedNotificationData.getNotificationNumber()).get();
+        NotificationStatus notificationStatus = notification.getStatus();
 
-        //TODO: Change to NotificationResponse
-        order.setTitle(managedNotificationData.getTitle());
-        order.setDescription(managedNotificationData.getDescription());
-        order.setAuthorId(managedNotificationData.getAuthorId());
-        order.setNotificationNumber(managedNotificationData.getNotificationNumber());
+        switch (notificationStatus){
 
-        // Business Logic
-        order.setStatus(OrderStatus.BACKLOG);
+            case CLOSED -> {
+                return "The notification is closed, so it cannot be processed.";
+            }
 
-        Notification notification = notificationRepository
-                .findById(
-                        managedNotificationData.getNotificationNumber()
-                )
-                .get();
-        notification.setStatus(NotificationStatus.PROCESSING);
+            case PROCESSING -> {
+                return "The notification is already on processing.";
+            }
 
-        // Saving into the DB
-        orderRepository.save(order);
-        notificationRepository.save(notification);
+            default -> {
+                //TODO: Export this to a mapping method
+                Order order = new Order();
+                order.setTitle(managedNotificationData.getTitle());
+                order.setDescription(managedNotificationData.getDescription());
+                order.setAuthorId(managedNotificationData.getAuthorId());
+                order.setNotificationNumber(managedNotificationData.getNotificationNumber());
 
-        //TODO: Create a NotificationResponse class
-        return "Order nº " + order.getNumber() + " generated with success.";
+                // Business Logic
+                order.setStatus(OrderStatus.BACKLOG);
+                notification.setStatus(NotificationStatus.PROCESSING);
+
+                // Saving into the DB
+                orderRepository.save(order);
+                notificationRepository.save(notification);
+
+                //TODO: Create a NotificationResponse class
+                return "Order nº " + order.getNumber() + " generated with success.";
+            }
+        }
     }
 
     @Override
@@ -85,19 +94,18 @@ public class NotificationServiceImpl implements NotificationService{
         Notification notification = notificationRepository.findById(notificationNumber).get();
         NotificationStatus notificationStatus = notification.getStatus();
 
-
         switch (notificationStatus) {
             case CLOSED -> {
-                return "The notification (nº " + notificationNumber + ") is already closed.";
+                return "The notification is already closed.";
             }
             case PROCESSING -> {
-                return "The notification (nº " + notificationNumber + ") cannot be closed, because it is attached to an order.";
+                return "The notification cannot be closed, because it's attached to an order.";
             }
             default -> {
                 notification.setStatus(NotificationStatus.CLOSED);
                 notification.setDateClosed(Date.from(Instant.now()));
                 notificationRepository.save(notification);
-                return "The notification (nº " + notificationNumber + "was successfully closed.";
+                return "The notification (nº " + notificationNumber + ") was successfully closed.";
             }
         }
     }
