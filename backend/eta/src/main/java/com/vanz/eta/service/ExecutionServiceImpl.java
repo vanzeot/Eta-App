@@ -28,7 +28,7 @@ public class ExecutionServiceImpl implements ExecutionService {
 
         Long orderNumber = executionData.getOrderNumber();
 
-        if (checkIfItsPending(orderNumber)){
+        if (isStatusBacklog(orderNumber)){
             Confirmation confirmation = new Confirmation();
 
             //TODO: Export this to a mapping method
@@ -69,16 +69,22 @@ public class ExecutionServiceImpl implements ExecutionService {
     }
 
     @Override
+    @Transactional
     public String abort(ExecutionData executionData){
 
         Long orderNumber = executionData.getOrderNumber();
 
-        if(checkIfItsPending(orderNumber)){
+        if(isStatusBacklog(orderNumber)){
 
             Order order = orderRepository.findById(orderNumber).get();
-            orderRepository.delete(order);
+            order.setStatus(OrderStatus.ABORTED);
+            orderRepository.save(order);
 
-            return "The order (nº " + orderNumber + ") was successfully deleted.";
+            Notification notification = notificationRepository.findById(order.getNotificationNumber()).get();
+            notification.setStatus(NotificationStatus.PENDING);
+            notificationRepository.save(notification);
+
+            return "The order (nº " + orderNumber + ") was successfully aborted.";
 
         } else {
 
@@ -86,12 +92,6 @@ public class ExecutionServiceImpl implements ExecutionService {
         }
 
     }
-
-
-
-
-
-
 
     /*
         AUXILIARY METHODS
@@ -107,9 +107,9 @@ public class ExecutionServiceImpl implements ExecutionService {
         return confirmation;
     }
 
-    public boolean checkIfItsPending(Long orderNumber){
+    public boolean isStatusBacklog(Long orderNumber){
 
-        return OrderStatus.PENDING == orderRepository.findById(orderNumber).get().getStatus();
+        return OrderStatus.BACKLOG == orderRepository.findById(orderNumber).get().getStatus();
 
     }
 

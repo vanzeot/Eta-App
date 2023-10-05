@@ -38,7 +38,7 @@ public class NotificationServiceImpl implements NotificationService{
         notification.setLocationId(notificationData.getLocationId());
 
         // Business Logic
-        notification.setStatus(NotificationStatus.CREATED);
+        notification.setStatus(NotificationStatus.PENDING);
 
         // Saving into the DB
         notificationRepository.save(notification);
@@ -61,7 +61,7 @@ public class NotificationServiceImpl implements NotificationService{
         order.setNotificationNumber(managedNotificationData.getNotificationNumber());
 
         // Business Logic
-        order.setStatus(OrderStatus.PENDING);
+        order.setStatus(OrderStatus.BACKLOG);
 
         Notification notification = notificationRepository
                 .findById(
@@ -82,24 +82,29 @@ public class NotificationServiceImpl implements NotificationService{
     public String closeNotification(ManagedNotificationData managedNotificationData){
 
         Long notificationNumber = managedNotificationData.getNotificationNumber();
+        Notification notification = notificationRepository.findById(notificationNumber).get();
+        NotificationStatus notificationStatus = notification.getStatus();
 
-        if(checkIfItsClosed(notificationNumber)){
 
-            return "The notification (nº " + notificationNumber + ") is already closed.";
-
-        } else {
-
-            Notification notification = notificationRepository.findById(notificationNumber).get();
-
-            //TODO: Check if the notification has an order, and if so, it cannot be closed
-            notification.setStatus(NotificationStatus.CLOSED);
-            notification.setDateClosed(Date.from(Instant.now()));
-            notificationRepository.save(notification);
-
-            return "The notification (nº " + notificationNumber + "was successfully closed.";
-
+        switch (notificationStatus) {
+            case CLOSED -> {
+                return "The notification (nº " + notificationNumber + ") is already closed.";
+            }
+            case PROCESSING -> {
+                return "The notification (nº " + notificationNumber + ") cannot be closed, because it is attached to an order.";
+            }
+            default -> {
+                notification.setStatus(NotificationStatus.CLOSED);
+                notification.setDateClosed(Date.from(Instant.now()));
+                notificationRepository.save(notification);
+                return "The notification (nº " + notificationNumber + "was successfully closed.";
+            }
         }
     }
+
+    /*
+        AUXILIARY METHODS
+     */
 
     private boolean checkIfItsClosed(Long notificationNumber) {
 

@@ -1,7 +1,7 @@
 package com.vanz.eta.entity;
 
 public enum OrderStatus {
-    PENDING,
+    BACKLOG,
     FINISHED,
     ABORTED
 }
