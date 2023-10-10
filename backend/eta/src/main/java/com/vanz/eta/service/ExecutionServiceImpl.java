@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 @Service
 public class ExecutionServiceImpl implements ExecutionService {
@@ -26,35 +27,36 @@ public class ExecutionServiceImpl implements ExecutionService {
     @Transactional
     public String confirm(ExecutionData executionData) {
 
-        Long orderNumber = executionData.getOrderNumber();
+        String orderNumber = executionData.getOrderNumber();
+        Order order = orderRepository.findByNumber(orderNumber).get();
 
         if (isStatusBacklog(orderNumber)){
             Confirmation confirmation = new Confirmation();
 
             //TODO: Export this to a mapping method
-            confirmation.setOrderNumber(orderNumber);
+            confirmation.setOrderId(order.getId());
             confirmation.setDateStarted(executionData.getDateStarted());
             confirmation.setDateFinished(executionData.getDateFinished());
             confirmation.setType(executionData.getType());
             confirmation.setExecutorId(executionData.getExecutorId());
-
+            confirmation.setNumber(generateConfirmationNumber());
             confirmationRepository.save(confirmation);
 
             if (confirmation.getType() == ConfirmationType.FINAL) {
 
                 // Change the status of the order to "FINISHED" and define the closing date-time
-                Order order = orderRepository.findById(orderNumber).get();
                 order.setStatus(OrderStatus.FINISHED);
                 order.setDateClosed(Date.from(Instant.now()));
 
                 // Same thing, but for the notification
-                Notification notification = notificationRepository.findById(order.getNotificationNumber()).get();
+                Notification notification = notificationRepository.findById(order.getNotificationId()).get();
                 notification.setStatus(NotificationStatus.CLOSED);
                 notification.setDateClosed(Date.from(Instant.now()));
 
                 // Save both into the DB
                 orderRepository.save(order);
                 notificationRepository.save(notification);
+
 
             }
 
@@ -72,15 +74,15 @@ public class ExecutionServiceImpl implements ExecutionService {
     @Transactional
     public String abort(ExecutionData executionData){
 
-        Long orderNumber = executionData.getOrderNumber();
+        String orderNumber = executionData.getOrderNumber();
 
         if(isStatusBacklog(orderNumber)){
 
-            Order order = orderRepository.findById(orderNumber).get();
+            Order order = orderRepository.findByNumber(orderNumber).get();
             order.setStatus(OrderStatus.ABORTED);
             orderRepository.save(order);
 
-            Notification notification = notificationRepository.findById(order.getNotificationNumber()).get();
+            Notification notification = notificationRepository.findById(order.getNotificationId()).get();
             notification.setStatus(NotificationStatus.PENDING);
             notificationRepository.save(notification);
 
@@ -107,9 +109,28 @@ public class ExecutionServiceImpl implements ExecutionService {
         return confirmation;
     }
 
-    public boolean isStatusBacklog(Long orderNumber){
+    public boolean isStatusBacklog(String orderNumber){
 
-        return OrderStatus.BACKLOG == orderRepository.findById(orderNumber).get().getStatus();
+        return OrderStatus.BACKLOG == orderRepository.findByNumber(orderNumber).get().getStatus();
+//        return OrderStatus.BACKLOG == orderRepository.findById(orderNumber).get().getStatus();
+
+    }
+
+
+    // TODO: Encapsulate this togheter with the other two main classes number generators
+    public String generateConfirmationNumber(){
+
+        Long lastId = null;
+        try{
+            Confirmation lastConfirmation = confirmationRepository.findFirstByOrderByIdDesc().get();
+            lastId = lastConfirmation.getId();
+
+        } catch (NoSuchElementException e){
+            lastId = 0L;
+        }
+
+        String formatedNumber = "CNF" + String.format("%06d", lastId + 1);
+        return formatedNumber;
 
     }
 

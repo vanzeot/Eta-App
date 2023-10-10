@@ -16,8 +16,11 @@ public class Confirmation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "number")
-    private Long number;
+    private String number;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
@@ -38,7 +41,7 @@ public class Confirmation {
     @Column(name = "executor_id")
     private Long executorId;
 
-    @Column(name = "order_number")
-    private Long orderNumber;
+    @Column(name = "order_id")
+    private Long orderId;
 
 }

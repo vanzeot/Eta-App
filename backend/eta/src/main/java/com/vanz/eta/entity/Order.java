@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
@@ -17,8 +16,11 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "number")
-    private Long number;
+    private String number;
 
     @Column(name = "title")
     private String title;
@@ -41,7 +43,7 @@ public class Order {
     @Column(name = "author_id")
     private Long authorId;
 
-    @Column(name = "notification_number")
-    private Long notificationNumber;
+    @Column(name = "notification_id")
+    private Long notificationId;
 
 }

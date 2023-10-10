@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class NotificationServiceImpl implements NotificationService{
@@ -39,6 +41,7 @@ public class NotificationServiceImpl implements NotificationService{
 
         // Business Logic
         notification.setStatus(NotificationStatus.PENDING);
+        notification.setNumber(generateNotificationNumber());
 
         // Saving into the DB
         notificationRepository.save(notification);
@@ -52,7 +55,7 @@ public class NotificationServiceImpl implements NotificationService{
     @Transactional
     public String processNotification(ManagedNotificationData managedNotificationData) {
 
-        Notification notification = notificationRepository.findById(managedNotificationData.getNotificationNumber()).get();
+        Notification notification = notificationRepository.findByNumber(managedNotificationData.getNotificationNumber()).get();
         NotificationStatus notificationStatus = notification.getStatus();
 
         switch (notificationStatus){
@@ -71,10 +74,11 @@ public class NotificationServiceImpl implements NotificationService{
                 order.setTitle(managedNotificationData.getTitle());
                 order.setDescription(managedNotificationData.getDescription());
                 order.setAuthorId(managedNotificationData.getAuthorId());
-                order.setNotificationNumber(managedNotificationData.getNotificationNumber());
+                order.setNotificationId(notification.getId());
 
                 // Business Logic
                 order.setStatus(OrderStatus.BACKLOG);
+                order.setNumber(generateOrderNumber());
                 notification.setStatus(NotificationStatus.PROCESSING);
 
                 // Saving into the DB
@@ -90,8 +94,8 @@ public class NotificationServiceImpl implements NotificationService{
     @Override
     public String closeNotification(ManagedNotificationData managedNotificationData){
 
-        Long notificationNumber = managedNotificationData.getNotificationNumber();
-        Notification notification = notificationRepository.findById(notificationNumber).get();
+        String notificationNumber = managedNotificationData.getNotificationNumber();
+        Notification notification = notificationRepository.findByNumber(notificationNumber).get();
         NotificationStatus notificationStatus = notification.getStatus();
 
         switch (notificationStatus) {
@@ -120,24 +124,41 @@ public class NotificationServiceImpl implements NotificationService{
 
     }
 
-    public Notification mapNotification(NotificationData notificationData, Notification notification){
-
-        notification.setTitle(notificationData.getTitle());
-        notification.setAuthorId(notificationData.getAuthorId());
-        notification.setDescription(notificationData.getDescription());
-        notification.setEquipmentId(notificationData.getEquipmentId());
-        notification.setLocationId(notificationData.getLocationId());
-
-        return notification;
+    public String formatGeneratedDoc(String code, Long lastId){
+        return code + String.format("%06d", lastId + 1);
     }
 
-    public Order mapOrder(ManagedNotificationData managedNotificationData, Order order){
 
-        order.setTitle(managedNotificationData.getTitle());
-        order.setDescription(managedNotificationData.getDescription());
-        order.setAuthorId(managedNotificationData.getAuthorId());
-        order.setNotificationNumber(managedNotificationData.getNotificationNumber());
+    // TODO: Encapsulate both methods in a more reusable way:
 
-        return order;
+    public String generateNotificationNumber(){
+
+        Long lastId = null;
+        try{
+            Notification lastNotification = notificationRepository.findFirstByOrderByIdDesc().get();
+            lastId = lastNotification.getId();
+
+        } catch (NoSuchElementException e){
+            lastId = 0L;
+        }
+
+        return formatGeneratedDoc("NTF", lastId);
+
     }
+
+    public String generateOrderNumber(){
+
+        Long lastId = null;
+        try{
+            Order lastOrder = orderRepository.findFirstByOrderByIdDesc().get();
+            lastId = lastOrder.getId();
+
+        } catch (NoSuchElementException e){
+            lastId = 0L;
+        }
+
+        return formatGeneratedDoc("NTF", lastId);
+    }
+
+
 }

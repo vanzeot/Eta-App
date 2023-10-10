@@ -12,6 +12,6 @@ public class ExecutionData {
     private Date dateStarted;
     private Date dateFinished;
     private Long executorId;
-    private Long orderNumber;
+    private String orderNumber;
 
 }
