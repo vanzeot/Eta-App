@@ -1,0 +1,14 @@
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let tempNotification of notifications">
+            <td>{{tempNotification.number}}</td>
+            <td>{{tempNotification.title}}</td>
+        </tr>
+    </tbody>
