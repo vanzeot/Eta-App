@@ -1,14 +1,38 @@
-<table class="table">
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="row">
 
-    <thead>
-        <tr>
-            <th>Number</th>
-            <th>Title</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let tempNotification of notifications">
-            <td>{{tempNotification.number}}</td>
-            <td>{{tempNotification.title}}</td>
-        </tr>
-    </tbody>
+                <!-- loop over the collection of notifications -->
+                <div *ngFor="let tempNotification of notifications" class="col-md-3">
+
+                    <div class="card">
+
+                        <a>
+                            <h1>{{ tempNotification.number }}</h1>
+                            <h2>{{ tempNotification.title }}</h2>
+                        </a>
+                        <div>{{ tempNotification.description }}</div>
+                        
+                    </div>
+
+                </div>
+
+                <!-- if notifications empty then display a message-->
+                <div *ngIf="notifications?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No notifications found.
+                </div>
+
+            </div>
+
+            
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

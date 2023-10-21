@@ -519,12 +519,37 @@ input.au-input.au-input-xl{
 
 /* 
  * ----------------------------
- * Products List
+ * Notification Cards
  * ----------------------------
  */
 
-.product-box img {
-    width: 150px;
+.card {
+
+    border: 2px solid #e7e7e7;
+    
+    border-radius: 4px;
+    
+    padding: .5rem;
+
+    margin-bottom:10px;
+}
+
+.card h1{
+    font-size:15px;
+    padding-bottom:0;
+    font-weight:500;
+    padding-top:12px;
+    color: hsl(197, 89%, 47%);
+}
+
+.card h2{
+    
+    font-size:18px;
+    border-bottom:1px solid #ccc;
+    padding-bottom:5px;
+    font-weight:600;
+    
+    margin-bottom:7px
 }
 
 .items select {
@@ -536,28 +561,7 @@ input.au-input.au-input-xl{
     outline: 0;
     margin-left: 5px;
 }
-.product-box{
-    margin-bottom:60px
-}
-.price{
-    margin:15px 0 0;
-    font-weight:800;
-    color:#0da8e4
-}
-.product-box h1{
-    font-size:18px;
-    border-bottom:1px solid #ccc;
-    padding-bottom:5px;
-    font-weight:600;
-    padding-top:12px;
-    margin-bottom:7px
-}
-.product-box h2{
-    font-size:15px;
-    padding-bottom:0;
-    font-weight:500;
-    color:#585858
-}
+
 
 /* 
  * ----------------------------
@@ -973,7 +977,7 @@ footer ul li{
     .footer-pagination{
         text-align:center
     }
-    .product-box{
+    .notification-card{
         text-align:centerg
     }
     .page-container{
