@@ -157,7 +157,7 @@ public class NotificationServiceImpl implements NotificationService{
             lastId = 0L;
         }
 
-        return formatGeneratedDoc("NTF", lastId);
+        return formatGeneratedDoc("ORD", lastId);
     }
 
 
