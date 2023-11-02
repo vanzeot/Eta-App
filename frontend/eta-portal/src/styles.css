@@ -532,6 +532,7 @@ input.au-input.au-input-xl{
     padding: .5rem;
 
     margin-bottom:10px;
+    
 }
 
 .card h1{
@@ -540,6 +541,7 @@ input.au-input.au-input-xl{
     font-weight:500;
     padding-top:12px;
     color: hsl(197, 89%, 47%);
+    display: inline-block;
 }
 
 .card h2{
@@ -550,6 +552,26 @@ input.au-input.au-input-xl{
     font-weight:600;
     
     margin-bottom:7px
+}
+
+.card-status {
+    float:right;
+    font-size:15px;
+    font-weight:700;
+}
+
+.card-status {
+    float:right;
+    font-size:15px;
+    font-weight:700;
+    padding-top:12px;
+}
+
+.card-status {
+    float:right;
+    font-size:15px;
+    font-weight:700;
+    padding-top:12px;
 }
 
 .items select {

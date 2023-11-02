@@ -6,10 +6,10 @@
                 <!-- loop over the collection of notifications -->
                 <div *ngFor="let tempNotification of notifications" class="col-md-3">
 
-                    <div class="card">
+                    <div class="card" style="min-height: 200px;">
 
                         <a>
-                            <h1>{{ tempNotification.number }}</h1>
+                            <h1>{{ tempNotification.number }}</h1> <span class="card-status"> {{ tempNotification.status }}</span>
                             <h2>{{ tempNotification.title }}</h2>
                         </a>
                         <div>{{ tempNotification.description }}</div>
@@ -30,9 +30,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
