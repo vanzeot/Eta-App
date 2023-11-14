@@ -1,13 +1,13 @@
 package com.vanz.eta.service;
 
+import com.vanz.eta.dto.ExibitionNotificationData;
 import com.vanz.eta.dto.NotificationData;
 import com.vanz.eta.dto.ManagedNotificationData;
 import com.vanz.eta.entity.Notification;
 import com.vanz.eta.entity.NotificationStatus;
 import com.vanz.eta.entity.Order;
 import com.vanz.eta.entity.OrderStatus;
-import com.vanz.eta.repository.NotificationRepository;
-import com.vanz.eta.repository.OrderRepository;
+import com.vanz.eta.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,14 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Autowired
     private NotificationRepository notificationRepository;
-
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private EquipmentRepository equipmentRepository;
+    @Autowired
+    private LocationRepository locationRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Override
     @Transactional
@@ -158,6 +163,39 @@ public class NotificationServiceImpl implements NotificationService{
         }
 
         return formatGeneratedDoc("ORD", lastId);
+    }
+
+    public ExibitionNotificationData getNotificationByNumber(String number){
+
+        Optional<Notification> notificationObject = notificationRepository.findByNumber(number);
+
+         // TODO: Make this mapping better
+         ExibitionNotificationData notificationData = new ExibitionNotificationData();
+         notificationData.setNumber(notificationObject.get().getNumber());
+         notificationData.setTitle((notificationObject.get().getTitle()));
+         notificationData.setDescription(notificationObject.get().getDescription());
+         notificationData.setStatus(String.valueOf(notificationObject.get().getStatus()));
+        notificationData.setDateCreated(notificationObject.get().getDateCreated());
+        notificationData.setDateClosed(notificationObject.get().getDateClosed());
+         // Getting names from id's in each repository:
+         notificationData.setEquipmentName(
+                 equipmentRepository.findById(
+                         notificationObject.get().getEquipmentId()
+                 ).get().getName()
+         );
+         notificationData.setLocationName(
+                 locationRepository.findById(
+                         notificationObject.get().getLocationId()
+                 ).get().getName()
+         );
+         notificationData.setAuthorName(
+                 employeeRepository.findById(
+                         notificationObject.get().getAuthorId()
+                 ).get().getName()
+         );
+
+         return notificationData;
+
     }
 
 
