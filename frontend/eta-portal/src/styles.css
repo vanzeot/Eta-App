@@ -524,54 +524,39 @@ input.au-input.au-input-xl{
  */
 
 .card {
-
     border: 2px solid #e7e7e7;
-    
     border-radius: 4px;
-    
     padding: .5rem;
-
     margin-bottom:10px;
-    
+    min-height: 250px;
 }
 
 .card h1{
     font-size:15px;
     padding-bottom:0;
     font-weight:500;
-    padding-top:12px;
-    color: hsl(197, 89%, 47%);
+    padding-top:10px;
     display: inline-block;
+    color: hsl(197, 89%, 47%);
 }
 
 .card h2{
-    
     font-size:18px;
     border-bottom:1px solid #ccc;
-    padding-bottom:5px;
+    padding-bottom:10px;
     font-weight:600;
-    
-    margin-bottom:7px
+    margin-bottom:7px;
 }
 
 .card-status {
     float:right;
     font-size:15px;
     font-weight:700;
+    padding-top:10px;
 }
 
-.card-status {
-    float:right;
-    font-size:15px;
-    font-weight:700;
-    padding-top:12px;
-}
-
-.card-status {
-    float:right;
-    font-size:15px;
-    font-weight:700;
-    padding-top:12px;
+.card-description{
+    padding-top:0px;
 }
 
 .items select {
@@ -736,7 +721,7 @@ table.table.table-bordered th{
 
 /* 
  * ----------------------------
- * Product Details
+ * Details
  * ----------------------------
  */
 
@@ -745,9 +730,16 @@ table.table.table-bordered th{
     font-weight:800;
     color:#0da8e4
 }
+
 .detail-section{
-    margin-top:60px
+    margin-top:100px;
 }
+
+.item-number{
+    color: #0da8e4;
+}
+
+
 /**/
 
 /* 
@@ -769,7 +761,8 @@ a.primary-btn{
     color:#fff;
     border-radius:2px;
     font-size:14px;
-    margin-top:5px
+    margin-top:5px;
+    
 }
 a.primary-btn:hover{
     background:#0da8e4;

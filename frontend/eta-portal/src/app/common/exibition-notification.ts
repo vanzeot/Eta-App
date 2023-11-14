@@ -1,4 +1,4 @@
-export class Notification {
+export class ExibitionNotification {
 
     constructor(
 
@@ -8,9 +8,9 @@ export class Notification {
         public status: string, // ENUM
         public dateCreated: Date,
         public dateClosed: Date,
-        public authorId: number,
-        public equipmentId: number,
-        public locationId: number
+        public authorName: string,
+        public equipmentName: string,
+        public locationName: string
 
     ){}
 

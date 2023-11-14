@@ -1,0 +1,32 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="card-group">
+                <div class="row">
+
+                    <!-- loop over the collection of notifications -->
+                    <div *ngFor="let tempOrder of orders" class="col-md-3">
+    
+                        <div class="card">
+    
+                            <a [routerLink]="['/orders', tempOrder.number]" style="text-decoration:none">
+                                <h1>{{ tempOrder.number }}</h1>
+                                <span class="card-status"> {{ tempOrder.status }}</span>
+                                <h2>{{ tempOrder.title }}</h2>
+                            </a>
+                            <span class="card-description">{{ tempOrder.description }}</span>
+                            
+                        </div>
+    
+                    </div>
+    
+                    <!-- if orders is empty then display a message-->
+                    <div *ngIf="orders?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                        No orders found.
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

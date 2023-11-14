@@ -1,4 +1,4 @@
-export class Notification {
+export class Order {
 
     constructor(
 
@@ -9,8 +9,6 @@ export class Notification {
         public dateCreated: Date,
         public dateClosed: Date,
         public authorId: number,
-        public equipmentId: number,
-        public locationId: number
 
     ){}
 
