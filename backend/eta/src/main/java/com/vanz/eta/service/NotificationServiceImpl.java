@@ -177,17 +177,32 @@ public class NotificationServiceImpl implements NotificationService{
          notificationData.setStatus(String.valueOf(notificationObject.get().getStatus()));
         notificationData.setDateCreated(notificationObject.get().getDateCreated());
         notificationData.setDateClosed(notificationObject.get().getDateClosed());
-         // Getting names from id's in each repository:
-         notificationData.setEquipmentName(
+         // Getting names and codes from id's in each repository:
+         notificationData.setEquipmentCode(
                  equipmentRepository.findById(
                          notificationObject.get().getEquipmentId()
-                 ).get().getName()
+                 ).get().getCode()
          );
+        notificationData.setEquipmentName(
+                equipmentRepository.findById(
+                        notificationObject.get().getEquipmentId()
+                ).get().getName()
+        );
+        notificationData.setLocationCode(
+                locationRepository.findById(
+                        notificationObject.get().getLocationId()
+                ).get().getCode()
+        );
          notificationData.setLocationName(
                  locationRepository.findById(
                          notificationObject.get().getLocationId()
                  ).get().getName()
          );
+        notificationData.setAuthorRegistration(
+                employeeRepository.findById(
+                        notificationObject.get().getAuthorId()
+                ).get().getRegistration()
+        );
          notificationData.setAuthorName(
                  employeeRepository.findById(
                          notificationObject.get().getAuthorId()

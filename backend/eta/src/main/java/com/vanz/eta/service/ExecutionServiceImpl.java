@@ -1,8 +1,10 @@
 package com.vanz.eta.service;
 
 import com.vanz.eta.dto.ExecutionData;
+import com.vanz.eta.dto.ExibitionOrderData;
 import com.vanz.eta.entity.*;
 import com.vanz.eta.repository.ConfirmationRepository;
+import com.vanz.eta.repository.EmployeeRepository;
 import com.vanz.eta.repository.NotificationRepository;
 import com.vanz.eta.repository.OrderRepository;
 import jakarta.transaction.Transactional;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.Date;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class ExecutionServiceImpl implements ExecutionService {
@@ -22,6 +25,8 @@ public class ExecutionServiceImpl implements ExecutionService {
     private OrderRepository orderRepository;
     @Autowired
     private ConfirmationRepository confirmationRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Override
     @Transactional
@@ -132,6 +137,43 @@ public class ExecutionServiceImpl implements ExecutionService {
         String formatedNumber = "CNF" + String.format("%06d", lastId + 1);
         return formatedNumber;
 
+    }
+
+    public ExibitionOrderData getOrderByNumber(String number){
+
+        Optional<Order> orderObject = orderRepository.findByNumber(number);
+
+        // TODO: Make this mapping better
+        ExibitionOrderData orderData = new ExibitionOrderData();
+        orderData.setNumber(orderObject.get().getNumber());
+        orderData.setTitle((orderObject.get().getTitle()));
+        orderData.setDescription(orderObject.get().getDescription());
+        orderData.setStatus(String.valueOf(orderObject.get().getStatus()));
+        orderData.setDateCreated(orderObject.get().getDateCreated());
+        orderData.setDateClosed(orderObject.get().getDateClosed());
+        // Get number by id
+        orderData.setNotificationNumber(
+                notificationRepository.findById(
+                        orderObject.get().getNotificationId()
+                ).get().getNumber()
+        );
+        orderData.setNotificationTitle(
+                notificationRepository.findById(
+                        orderObject.get().getNotificationId()
+                ).get().getTitle()
+        );
+        orderData.setAuthorRegistation(
+                employeeRepository.findById(
+                        orderObject.get().getAuthorId()
+                ).get().getRegistration()
+        );
+        orderData.setAuthorName(
+                employeeRepository.findById(
+                        orderObject.get().getAuthorId()
+                ).get().getName()
+        );
+
+        return orderData;
     }
 
 }

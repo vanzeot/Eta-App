@@ -15,8 +15,11 @@ public class ExibitionNotificationData {
     private String number;
     private String title;
     private String description;
+    private String authorRegistration;
     private String authorName;
+    private String equipmentCode;
     private String equipmentName;
+    private String locationCode;
     private String locationName;
     private Date dateCreated;
     private Date dateClosed;
