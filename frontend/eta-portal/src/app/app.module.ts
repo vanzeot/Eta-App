@@ -8,12 +8,14 @@ import { NotificationService } from './services/notification.service';
 import { Routes, RouterModule } from '@angular/router';
 import { OrderListComponent } from './components/order-list/order-list.component';
 import { NotificationDetailsComponent } from './components/notification-details/notification-details.component';
-import { ConfirmationListComponent } from './confirmation-list/confirmation-list.component';
+import { ConfirmationListComponent } from './components/confirmation-list/confirmation-list.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 const routes: Routes = [
   { path: 'notifications/:number', component: NotificationDetailsComponent},
   { path: 'notifications', component: NotificationListComponent},
   { path: 'orders', component: OrderListComponent},
+  { path: 'orders/:number', component: OrderDetailsComponent},
   
   // ...
   { path: '', redirectTo: '/notifications', pathMatch: 'full'},
@@ -26,7 +28,8 @@ const routes: Routes = [
     NotificationListComponent,
     OrderListComponent,
     NotificationDetailsComponent,
-    ConfirmationListComponent
+    ConfirmationListComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,

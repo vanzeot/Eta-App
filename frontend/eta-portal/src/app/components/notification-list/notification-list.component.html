@@ -11,7 +11,11 @@
     
                             <a [routerLink]="['/notifications', tempNotification.number]" style="text-decoration:none">
                                 <h1>{{ tempNotification.number }}</h1>
-                                <span class="card-status"> {{ tempNotification.status }}</span>
+                                <div class="card-status">
+                                    <span *ngIf="tempNotification.status == 'CLOSED'" style="color: lightslategrey "> {{ tempNotification.status }} </span>
+                                    <span *ngIf="tempNotification.status == 'PROCESSING'" style="color: darkgoldenrod"> {{ tempNotification.status }} </span>
+                                    <span *ngIf="tempNotification.status == 'PENDING'" style="color: maroon"> {{ tempNotification.status }} </span>
+                                </div>
                                 <h2>{{ tempNotification.title }}</h2>
                             </a>
                             <span class="card-description">{{ tempNotification.description }}</span>

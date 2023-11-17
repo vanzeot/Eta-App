@@ -553,6 +553,7 @@ input.au-input.au-input-xl{
     font-size:15px;
     font-weight:700;
     padding-top:10px;
+    float: right;
 }
 
 .card-description{
@@ -725,18 +726,20 @@ table.table.table-bordered th{
  * ----------------------------
  */
 
- .price{
-    margin:15px 0 0;
-    font-weight:800;
-    color:#0da8e4
-}
-
 .detail-section{
     margin-top:100px;
 }
 
 .item-number{
     color: #0da8e4;
+}
+
+.detail-status{
+    border-radius: 25px;
+    font-weight:700;
+    color: whitesmoke;
+    text-align: center;
+    margin-bottom: 18px;
 }
 
 
@@ -764,6 +767,19 @@ a.primary-btn{
     margin-top:5px;
     
 }
+
+a.move-back-btn{
+    background: gray;
+    padding:7px 20px;
+    text-align:center;
+    display:inline-block;
+    color:#fff;
+    border-radius:2px;
+    font-size:14px;
+    margin-top:5px;
+    
+}
+
 a.primary-btn:hover{
     background:#0da8e4;
     color:#fff

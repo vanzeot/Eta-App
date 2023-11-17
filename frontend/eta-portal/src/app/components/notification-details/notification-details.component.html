@@ -1,7 +1,18 @@
 <div class="detail-section">
     <div class="container-fluid">
 
-        <h3 class="item-number">{{ notification.number }}</h3>
+        <!-- STATUS -->
+
+        <div class="detail-status">
+            <div *ngIf="notification.status == 'PENDING'" style="background-color: maroon; border-radius: 25px"> {{notification.status}} </div>
+            <div *ngIf="notification.status == 'PROCESSING'" style="background-color: darkgoldenrod; border-radius: 25px">{{notification.status}}</div>
+            <div *ngIf="notification.status == 'CLOSED'" style="background-color: lightslategrey; border-radius: 25px">{{notification.status}}</div>
+        </div>
+
+        <!-- NUMBER, TITLE AND DESCRIPTION -->
+
+        <h3 class="item-number">{{ notification.number }} </h3>        
+
         <h4>{{ notification.title }}</h4>
 
         <hr>
@@ -9,31 +20,44 @@
         <h4>Description</h4>
         <p>{{ notification.description }}</p>
 
-        <hr>
+        <!-- CONTENT SECTION-->
 
-        <div class="row" style="display: flex;">
+        <div class="row" style="display: flex; margin-top: 40px">
             <div class="column" style="flex: 50%;">
-                <p> <span style="font-weight: bold;">Equipment:</span> {{ notification.equipmentName }}</p>
-                <p> <span style="font-weight: bold;">Location: </span>{{ notification.locationName }}</p>
-                <p> <span style="font-weight: bold;">Author: </span>{{ notification.authorName }}</p>
+                <p> <span style="font-weight: bold;">Equipment:</span> {{ notification.equipmentCode }} - {{ notification.equipmentName }}</p>
+                <p> <span style="font-weight: bold;">Location: </span> {{ notification.locationCode }} - {{ notification.locationName }}</p>
+                <p> <span style="font-weight: bold;">Author: </span> {{ notification.authorRegistration }} - {{ notification.authorName }}</p>
             </div>
             <div class="column" style="flex: 50%;">
-                <p> <span style="font-weight: bold;">Creation Date: </span>{{ notification.dateCreated }}</p>
+                <p> <span style="font-weight: bold;">Creation Date: </span>{{ notification.dateCreated | date : 'dd/MM/yyyy - HH:mm' : '-03:00' }}</p>
                 <div *ngIf="notification.dateClosed != null">
-                    <p> <span style="font-weight: bold;">Closing Date: </span>{{ notification.dateClosed }}</p>
+                    <p> <span style="font-weight: bold;">Closing Date: </span>{{ notification.dateClosed | date : 'dd/MM/yyyy - HH:mm' : '-03:00' }}</p>
                 </div>
             </div>
         </div>
 
         <hr>
 
-        <div style="display: inline;">
-            <button class="btn btn-primary btn-sm" style="width: 100px; margin-right: 5px">Proccess</button>
-            <button class="btn btn-primary btn-sm" style="width: 100px; background-color: gray; margin-inline: 5px">Close</button>
-        </div>
-        <br>
-        
+        <!-- DISPLAY BUTTONS ACCORDING TO STATUS -->
 
-        <a routerLink="/notifications" class="mt-5">Back to Notification List</a>
+        <div *ngIf="notification.status == 'PENDING'">
+            <div style="display: inline;">
+                <button class="btn btn-primary btn-sm" style="width: 100px; margin-right: 5px">Proccess</button>
+                <button class="btn btn-primary btn-sm" style="width: 100px; background-color: gray; margin-inline: 5px">Close</button>
+            </div>
+        </div>
+        <div *ngIf="notification.status == 'PROCESSING'">
+            <div style="display: inline;">
+                <button class="btn btn-primary btn-sm" style="width: 100px; margin-right: 5px">Check order</button>
+                <button class="btn btn-primary btn-sm" style="width: 100px; background-color: gray; margin-inline: 5px">Close</button>
+            </div>
+        </div>
+        <div *ngIf="notification.status == 'CLOSED'">
+            <div style="display: inline;">
+                <button class="btn btn-primary btn-sm" style="width: 100px; margin-right: 5px">Create copy</button>
+            </div>
+        </div>
+
+        <a routerLink="/notifications" class="move-back-btn">Back to Notification List</a>
     </div>
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ExibitionNotification } from 'src/app/common/exibition-notification';
+import { CommonModule } from '@angular/common';
+import { ExibitionNotification } from 'src/app/common/exibition/exibition-notification';
 import { Notification } from 'src/app/common/notification';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -12,9 +13,8 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class NotificationDetailsComponent implements OnInit {
 
   notification!: ExibitionNotification;
-  // product: Product = new Product();
 
-  constructor(private productService: NotificationService,
+  constructor(private notificationService: NotificationService,
     private route: ActivatedRoute) { }
 
 
@@ -28,7 +28,7 @@ export class NotificationDetailsComponent implements OnInit {
 
     const theNotificationNumber: string = this.route.snapshot.paramMap.get('number')!;
 
-    this.productService.getNotification(theNotificationNumber).subscribe(
+    this.notificationService.getNotification(theNotificationNumber).subscribe(
       data => {
         this.notification = data;
       }

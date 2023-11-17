@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Notification } from '../common/notification';
-import { ExibitionNotification } from '../common/exibition-notification';
+import { ExibitionNotification } from '../common/exibition/exibition-notification';
 
 @Injectable({
   providedIn: 'root'

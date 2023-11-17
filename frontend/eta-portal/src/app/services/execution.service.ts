@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Order } from '../common/order';
 import { Confirmation } from '../common/confirmation';
+import { ExibitionOrder } from '../common/exibition/exibition-order';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { Confirmation } from '../common/confirmation';
 export class ExecutionService {
 
   private baseUrl = 'http://localhost:8080/api/';
+  private controllerUrl = 'http://localhost:8080/api/execution'
 
   constructor(private httpClient: HttpClient) {
 
@@ -26,6 +28,14 @@ export class ExecutionService {
       map(response => response._embedded.orders)
     );
   }
+
+  getOrder(theOrderNumber: string): Observable<ExibitionOrder> {
+
+    const orderUrl = `${this.controllerUrl}/${theOrderNumber}`;
+
+    return this.httpClient.get<ExibitionOrder>(orderUrl);
+  }
+
 }
 
 interface GetOrderResponse {
