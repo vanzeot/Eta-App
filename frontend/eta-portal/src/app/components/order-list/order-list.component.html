@@ -1,0 +1,36 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="card-group">
+                <div class="row">
+
+                    <!-- loop over the collection of ordersdet -->
+                    <div *ngFor="let tempOrder of orders" class="col-md-3">
+    
+                        <div class="card">
+    
+                            <a [routerLink]="['/orders', tempOrder.number]" style="text-decoration:none">
+                                <h1>{{ tempOrder.number }}</h1>
+                                <div class="card-status">
+                                    <span *ngIf="tempOrder.status == 'FINISHED'" style="color: darkolivegreen "> {{ tempOrder.status }}</span>
+                                    <span *ngIf="tempOrder.status == 'ABORTED'" style="color: lightslategrey"> {{ tempOrder.status }}</span>
+                                    <span *ngIf="tempOrder.status == 'BACKLOG'" style="color: maroon"> {{ tempOrder.status }}</span>
+                                </div>
+                                <h2>{{ tempOrder.title }}</h2>
+                            </a>
+                            <span class="card-description">{{ tempOrder.description }}</span>
+                            
+                        </div>
+    
+                    </div>
+    
+                    <!-- if orders is empty then display a message-->
+                    <div *ngIf="orders?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                        No orders found.
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

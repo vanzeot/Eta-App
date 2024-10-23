@@ -2,6 +2,7 @@ package com.vanz.eta.service;
 
 
 import com.vanz.eta.dto.ExecutionData;
+import com.vanz.eta.dto.ExibitionOrderData;
 
 public interface ExecutionService {
 
@@ -9,4 +10,5 @@ public interface ExecutionService {
 
     String abort(ExecutionData executionData);
 
+    ExibitionOrderData getOrderByNumber(String number);
 }

@@ -11,13 +11,13 @@
       <nav class="navbar-sidebar">
         <ul class="list-unstyled navbar-list">
           <li>
-            <a href="#">Notifications</a>
+            <a routerLink="/notifications" routerLinkActive="active-link">Notifications</a>
           </li>
           <li>
-            <a href="#">Orders</a>
+            <a routerLink="/orders" routerLinkActive="active-link">Orders</a>
           </li>
           <li>
-            <a href="#">Confirmations</a>
+            <a routerLink="/confirmations" routerLinkActive="active-link">Confirmations</a>
           </li>
         </ul>
       </nav>
@@ -45,7 +45,7 @@
     <!-- END HEADER DESKTOP-->
 
     <!-- MAIN CONTENT-->
-    <app-notification-list></app-notification-list>
+    <router-outlet ></router-outlet>
 
   </div>
 </div>

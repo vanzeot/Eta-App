@@ -1,14 +1,36 @@
-<table class="table">
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="card-group">
+                <div class="row">
 
-    <thead>
-        <tr>
-            <th>Number</th>
-            <th>Title</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let tempNotification of notifications">
-            <td>{{tempNotification.number}}</td>
-            <td>{{tempNotification.title}}</td>
-        </tr>
-    </tbody>
+                    <!-- loop over the collection of notifications -->
+                    <div *ngFor="let tempNotification of notifications" class="col-md-3">
+    
+                        <div class="card">
+    
+                            <a [routerLink]="['/notifications', tempNotification.number]" style="text-decoration:none">
+                                <h1>{{ tempNotification.number }}</h1>
+                                <div class="card-status">
+                                    <span *ngIf="tempNotification.status == 'CLOSED'" style="color: lightslategrey "> {{ tempNotification.status }} </span>
+                                    <span *ngIf="tempNotification.status == 'PROCESSING'" style="color: darkgoldenrod"> {{ tempNotification.status }} </span>
+                                    <span *ngIf="tempNotification.status == 'PENDING'" style="color: maroon"> {{ tempNotification.status }} </span>
+                                </div>
+                                <h2>{{ tempNotification.title }}</h2>
+                            </a>
+                            <span class="card-description">{{ tempNotification.description }}</span>
+                            
+                        </div>
+    
+                    </div>
+    
+                    <!-- if notifications empty then display a message-->
+                    <div *ngIf="notifications?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                        No notifications found.
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

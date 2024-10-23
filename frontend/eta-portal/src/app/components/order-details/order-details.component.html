@@ -1,0 +1,64 @@
+<div class="detail-section">
+    <div class="container-fluid">
+
+        <!-- STATUS -->
+
+        <div class="detail-status">
+            <div *ngIf="order.status == 'FINISHED'" style="background-color: darkolivegreen; border-radius: 25px"> {{order.status}} </div>
+            <div *ngIf="order.status == 'ABORTED'" style="background-color: lightslategrey; border-radius: 25px">{{order.status}}</div>
+            <div *ngIf="order.status == 'BACKLOG'" style="background-color: maroon; border-radius: 25px">{{order.status}}</div>
+        </div>
+
+        <!-- NUMBER, TITLE AND DESCRIPTION -->
+
+        <h3 class="item-number">{{ order.number }} </h3>        
+
+        <h4>{{ order.title }}</h4>
+
+        <hr>
+        
+        <h4>Description</h4>
+        <p>{{ order.description }}</p>
+
+        <!-- CONTENT SECTION-->
+
+        <div class="row" style="display: flex; margin-top: 40px">
+            <div class="column" style="flex: 50%;">
+                <p>
+                    <span style="font-weight: bold;">Notification: </span>
+                    <a [routerLink]="['/notifications', order.notificationNumber]">{{ order.notificationNumber }} - {{order.notificationTitle}}</a>
+                </p>
+            </div>
+            <div class="column" style="flex: 50%;">
+                <p> <span style="font-weight: bold;">Creation Date: </span>{{ order.dateCreated | date : 'dd/MM/yyyy - HH:mm' : '-03:00' }}</p>
+                <div *ngIf="order.dateClosed != null">
+                    <p> <span style="font-weight: bold;">Closing Date: </span>{{ order.dateClosed | date : 'dd/MM/yyyy - HH:mm' : '-03:00' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- DISPLAY BUTTONS ACCORDING TO STATUS -->
+
+        <div *ngIf="order.status == 'BACKLOG'">
+            <div style="display: inline;">
+                <button class="btn btn-primary btn-sm" style="width: 100px; margin-right: 5px">Proccess</button>
+                <button class="btn btn-primary btn-sm" style="width: 100px; background-color: gray; margin-inline: 5px">Execute</button>
+            </div>
+        </div>
+        <div *ngIf="order.status == 'ABORTED'">
+            <div style="display: inline;">
+                <button class="btn btn-primary btn-sm" style="width: 100px; margin-right: 5px">Check order</button>
+                <button class="btn btn-primary btn-sm" style="width: 100px; background-color: gray; margin-inline: 5px">Create copy</button>
+            </div>
+        </div>
+        <div *ngIf="order.status == 'FINISHED'">
+            <div style="display: inline;">
+                <button class="btn btn-primary btn-sm" style="width: 100px; margin-right: 5px">Create copy</button>
+            </div>
+        </div>
+        
+        <a routerLink="/orders" class="move-back-btn">Back to order List</a>
+    </div>
+</div>

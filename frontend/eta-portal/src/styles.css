@@ -519,12 +519,45 @@ input.au-input.au-input-xl{
 
 /* 
  * ----------------------------
- * Products List
+ * Notification Cards
  * ----------------------------
  */
 
-.product-box img {
-    width: 150px;
+.card {
+    border: 2px solid #e7e7e7;
+    border-radius: 4px;
+    padding: .5rem;
+    margin-bottom:10px;
+    min-height: 250px;
+}
+
+.card h1{
+    font-size:15px;
+    padding-bottom:0;
+    font-weight:500;
+    padding-top:10px;
+    display: inline-block;
+    color: hsl(197, 89%, 47%);
+}
+
+.card h2{
+    font-size:18px;
+    border-bottom:1px solid #ccc;
+    padding-bottom:10px;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+.card-status {
+    float:right;
+    font-size:15px;
+    font-weight:700;
+    padding-top:10px;
+    float: right;
+}
+
+.card-description{
+    padding-top:0px;
 }
 
 .items select {
@@ -536,28 +569,7 @@ input.au-input.au-input-xl{
     outline: 0;
     margin-left: 5px;
 }
-.product-box{
-    margin-bottom:60px
-}
-.price{
-    margin:15px 0 0;
-    font-weight:800;
-    color:#0da8e4
-}
-.product-box h1{
-    font-size:18px;
-    border-bottom:1px solid #ccc;
-    padding-bottom:5px;
-    font-weight:600;
-    padding-top:12px;
-    margin-bottom:7px
-}
-.product-box h2{
-    font-size:15px;
-    padding-bottom:0;
-    font-weight:500;
-    color:#585858
-}
+
 
 /* 
  * ----------------------------
@@ -710,18 +722,27 @@ table.table.table-bordered th{
 
 /* 
  * ----------------------------
- * Product Details
+ * Details
  * ----------------------------
  */
 
- .price{
-    margin:15px 0 0;
-    font-weight:800;
-    color:#0da8e4
-}
 .detail-section{
-    margin-top:60px
+    margin-top:100px;
 }
+
+.item-number{
+    color: #0da8e4;
+}
+
+.detail-status{
+    border-radius: 25px;
+    font-weight:700;
+    color: whitesmoke;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+
 /**/
 
 /* 
@@ -743,8 +764,22 @@ a.primary-btn{
     color:#fff;
     border-radius:2px;
     font-size:14px;
-    margin-top:5px
+    margin-top:5px;
+    
 }
+
+a.move-back-btn{
+    background: gray;
+    padding:7px 20px;
+    text-align:center;
+    display:inline-block;
+    color:#fff;
+    border-radius:2px;
+    font-size:14px;
+    margin-top:5px;
+    
+}
+
 a.primary-btn:hover{
     background:#0da8e4;
     color:#fff
@@ -973,7 +1008,7 @@ footer ul li{
     .footer-pagination{
         text-align:center
     }
-    .product-box{
+    .notification-card{
         text-align:centerg
     }
     .page-container{
